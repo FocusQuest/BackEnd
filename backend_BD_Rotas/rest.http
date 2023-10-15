@@ -1,0 +1,108 @@
+GET http://localhost:3000/chamados/usuario/6
+
+# {
+# "idUsuario": 2    
+# }
+
+
+POST http://localhost:3000/usuarios/login/3
+
+{
+"emailUsuario": "email2@ig.com",
+"senhaUsuario": "123"
+}
+
+## -> rota de login não funciona aqui, só no Insomnia, Posteman, etc
+
+###
+
+
+POST http://localhost:3000/chamados
+Content-Type: application/json
+
+{
+"nomeChamado": "Internet carrega e para",
+"descChamado": "Estava bom, depois ficou ruim depois ficou bom",
+"idUsuario": 2,
+"idLab": 2,
+"idComputador": 3,
+"idCategoria": 1
+}
+
+###
+
+
+POST http://localhost:3000/usuarios
+Content-Type: application/json
+
+{
+"nomeUsuario": "Marília Gabriela",
+"emailUsuario": "email2@ig.com",
+"senhaUsuario": "123",
+"telefoneUsuario": "11966666666"
+}
+
+
+###
+
+
+PATCH http://localhost:3000/usuarios/2
+Content-Type: application/json
+
+{
+"nomeUsuario": "Maria de Souza Lacerda"
+}
+
+
+
+###
+
+
+GET http://localhost:3000/chamados/3
+
+
+###
+
+
+GET http://localhost:3000/usuarios/2
+
+
+###
+
+
+PATCH http://localhost:3000/usuarios/2
+Content-Type: application/json
+
+{
+"emailUsuario": "mariasl@gmail.com"
+}
+
+
+
+###
+
+DELETE http://localhost:3000/chamados/5
+
+
+###
+
+
+DELETE http://localhost:3000/usuarios/8
+
+
+###
+
+
+# inclusão do idSuporte (técnico responsável) ao chamado quando ele assumir a tarefa.
+PATCH http://localhost:3000/chamados/6
+Content-Type: application/json
+
+{ 
+"idSuporte": 2
+}
+
+
+###
+
+
+

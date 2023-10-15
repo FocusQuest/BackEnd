@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Chamado {
+  id                  Int       @id @default(autoincrement())
+  nomeChamado         String    
+  descChamado         String
+  dataAberturaChamado DateTime  @default(now())
+  usuario             Usuario   @relation(fields: [idUsuario], references: [id])
+  idUsuario           Int
+  lab                 Lab       @relation(fields: [idLab], references: [id])
+  idLab               Int
+  computador          Computador  @relation(fields: [idComputador], references: [id])
+  idComputador        Int
+  categoria           Categoria @relation(fields: [idCategoria], references: [id])
+  idCategoria         Int
+  andamento           Andamento @relation(fields: [idAndamento], references: [id])
+  idAndamento         Int       @default(1)       
+  suporte             Suporte?  @relation(fields: [idSuporte], references: [id])
+  idSuporte           Int?
+  tratInicio          DateTime?
+  tratFim             DateTime?
+}
+
+model Lab {
+  id        Int       @id @default(autoincrement())
+  nomeLab   String
+  computador Computador[]
+  chamados  Chamado[] // Added opposite relation field
+}
+
+model Computador {
+  id        Int       @id @default(autoincrement())
+  nomeComp  String    @unique
+  lab       Lab       @relation(fields: [idLab], references: [id])
+  idLab     Int
+  chamados  Chamado[] // Added opposite relation field
+}
+
+model Admin {
+  id           Int       @id @default(1) @unique 
+  nomeAdmin    String
+  emailAdmin   String    @unique
+  telefoneAdmin String
+  senhaAdmin   String    @default("")
+  nivelAcesso  NivelAcesso @relation(fields: [idNivelAcesso], references: [id])
+  idNivelAcesso Int @default(1)
+}
+
+model Suporte {
+  id           Int       @id @default(autoincrement())
+  nomeSuporte  String
+  emailSuporte String    @unique
+  telefoneSuporte String
+  senhaSuporte  String @default("")
+  nivelAcesso     NivelAcesso @relation(fields: [idNivelAcesso], references: [id])
+  idNivelAcesso   Int @default(2)
+  chamados     Chamado[]
+}
+
+model Usuario {
+  id              Int       @id @default(autoincrement())
+  nomeUsuario     String
+  emailUsuario    String    @unique
+  telefoneUsuario String
+  senhaUsuario    String    @default("")
+  nivelAcesso      NivelAcesso @relation(fields: [idNivelAcesso], references: [id])
+  idNivelAcesso   Int @default(3) 
+  chamados        Chamado[]
+}
+
+model NivelAcesso {
+  id              Int       @id @default(autoincrement())
+  descNivelAcesso String
+  admin           Admin[]
+  usuario         Usuario[]
+  suporte         Suporte[]
+}
+
+model Andamento {
+  id            Int       @id @default(autoincrement())
+  descAndamento String
+  chamados      Chamado[] // Added opposite relation field
+}
+
+model Categoria {
+  id            Int       @id @default(autoincrement())
+  descCategoria String
+  chamados      Chamado[] // Added opposite relation field
+}
