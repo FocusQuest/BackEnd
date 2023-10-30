@@ -18,7 +18,7 @@ import {
   createUsuario,
   deleteUsuario,
   updateUsuario,
-  // loginUsuario,
+  loginUsuario,
 } from "../controllers/usuarios.controller";
 
 const router = express.Router();
@@ -38,6 +38,6 @@ router.get("/usuarios/:id", getUsuarioById);
 router.post("/usuarios", createUsuario);
 router.delete("/usuarios/:id", deleteUsuario);
 router.patch("/usuarios/:id", updateUsuario);
-// router.post("/usuarios/login/:nivelAcesso", loginUsuario);
+router.post("/usuarios/login", loginUsuario);
 
 export default router;
