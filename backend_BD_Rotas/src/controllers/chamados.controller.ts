@@ -54,6 +54,23 @@ export const getChamadosByUser = async (req: Request, res: Response, next: NextF
 };
  
 
+export const getChamadoByIdAndamento = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    const chamado = await prisma.chamado.findMany({
+      where: {
+        idAndamento: Number(id),
+      },
+    });
+    if (chamado.length === 0) {
+      return res.status(404).json({ message: 'Nenhum chamado econtrado pare este status de andamento!' });
+    }
+    res.json(chamado);
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 export const createChamado = async (req: Request, res: Response, next: NextFunction) => {
   try {

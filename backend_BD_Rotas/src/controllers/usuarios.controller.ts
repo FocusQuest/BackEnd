@@ -53,8 +53,9 @@ export const createUsuario = async (
       data: {
         nomeUsuario: req.body.nomeUsuario,
         emailUsuario: req.body.emailUsuario,
-        senhaUsuario: req.body.senhaUsuario,
         telefoneUsuario: req.body.telefoneUsuario,
+        senhaUsuario: req.body.senhaUsuario,
+        nivelAcesso: req.body.nivelAcesso,
       },
     });
     res.status(201).json(usuario);
@@ -127,91 +128,91 @@ export const updateUsuario = async (
     next(error);
   }
 };*/
-export const loginUsuario = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  if (req.params.nivelAcesso === "3") {
-    try {
-      const usuario = await prisma.usuario.findUnique({
-        where: {
-          emailUsuario: req.body.emailUsuario,
-        },
-      });
-      if (!usuario) {
-        res.status(404).json({ msg: "Usuário não encontrado" });
-      }
-      const senha = req.body.senhaUsuario;
-      if (senha !== usuario?.senhaUsuario) {
-        res.status(401).json({ msg: "Senha incorreta" });
-      }
-      const tokenUsuario = jwt.sign(
-        { id: usuario?.id },
-        process.env.JWT_PASS ?? "",
-        { expiresIn: "24h" },
-      );
-      res.status(202).json({
-        msg: "Usuário logado com sucesso",
-        usuario: usuario,
-        token: tokenUsuario,
-      });
-    } catch (error) {
-      next(error);
-    }
-  } else if (req.params.nivelAcesso === "2") {
-    try {
-      const suporte = await prisma.suporte.findUnique({
-        where: {
-          emailSuporte: req.body.emailSuporte,
-        },
-      });
-      if (!suporte) {
-        res.status(404).json({ msg: "Usuário não encontrado" });
-      }
-      const senha = req.body.senhaUsuario;
-      if (senha !== suporte?.senhaSuporte) {
-        res.status(401).json({ msg: "Senha incorreta" });
-      }
-      const tokenSuporte = jwt.sign(
-        { id: suporte?.id },
-        process.env.JWT_PASS ?? "",
-        { expiresIn: "24h" },
-      );
-      res.status(202).json({
-        msg: "Suporte logado com sucesso",
-        usuario: suporte,
-        token: tokenSuporte,
-      });
-    } catch (error) {
-      next(error);
-    }
-  } else if (req.params.nivelAcesso === "1") {
-    try {
-      const admin = await prisma.admin.findUnique({
-        where: {
-          emailAdmin: req.body.emailAdmin,
-        },
-      });
-      if (!admin) {
-        res.status(404).json({ msg: "Usuário não encontrado" });
-      }
-      const senha = req.body.senhaAdmin;
-      if (senha !== admin?.senhaAdmin) {
-        res.status(401).json({ msg: "Senha incorreta" });
-      }
-      const tokenAdmin = jwt.sign(
-        { id: admin?.id },
-        process.env.JWT_PASS ?? "",
-        { expiresIn: "24h" },
-      );
-      res.status(202).json({
-        msg: "Usuário logado com sucesso",
-        usuario: admin,
-        token: tokenAdmin,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-};
+// export const loginUsuario = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction,
+// ) => {
+//   if (req.params.nivelAcesso === "3") {
+//     try {
+//       const usuario = await prisma.usuario.findUnique({
+//         where: {
+//           emailUsuario: req.body.emailUsuario,
+//         },
+//       });
+//       if (!usuario) {
+//         res.status(404).json({ msg: "Usuário não encontrado" });
+//       }
+//       const senha = req.body.senhaUsuario;
+//       if (senha !== usuario?.senhaUsuario) {
+//         res.status(401).json({ msg: "Senha incorreta" });
+//       }
+//       const tokenUsuario = jwt.sign(
+//         { id: usuario?.id },
+//         process.env.JWT_PASS ?? "",
+//         { expiresIn: "24h" },
+//       );
+//       res.status(202).json({
+//         msg: "Usuário logado com sucesso",
+//         usuario: usuario,
+//         token: tokenUsuario,
+//       });
+//     } catch (error) {
+//       next(error);
+//     }
+//   } else if (req.params.nivelAcesso === "2") {
+//     try {
+//       const suporte = await prisma.suporte.findUnique({
+//         where: {
+//           emailSuporte: req.body.emailSuporte,
+//         },
+//       });
+//       if (!suporte) {
+//         res.status(404).json({ msg: "Usuário não encontrado" });
+//       }
+//       const senha = req.body.senhaUsuario;
+//       if (senha !== suporte?.senhaSuporte) {
+//         res.status(401).json({ msg: "Senha incorreta" });
+//       }
+//       const tokenSuporte = jwt.sign(
+//         { id: suporte?.id },
+//         process.env.JWT_PASS ?? "",
+//         { expiresIn: "24h" },
+//       );
+//       res.status(202).json({
+//         msg: "Suporte logado com sucesso",
+//         usuario: suporte,
+//         token: tokenSuporte,
+//       });
+//     } catch (error) {
+//       next(error);
+//     }
+//   } else if (req.params.nivelAcesso === "1") {
+//     try {
+//       const admin = await prisma.admin.findUnique({
+//         where: {
+//           emailAdmin: req.body.emailAdmin,
+//         },
+//       });
+//       if (!admin) {
+//         res.status(404).json({ msg: "Usuário não encontrado" });
+//       }
+//       const senha = req.body.senhaAdmin;
+//       if (senha !== admin?.senhaAdmin) {
+//         res.status(401).json({ msg: "Senha incorreta" });
+//       }
+//       const tokenAdmin = jwt.sign(
+//         { id: admin?.id },
+//         process.env.JWT_PASS ?? "",
+//         { expiresIn: "24h" },
+//       );
+//       res.status(202).json({
+//         msg: "Usuário logado com sucesso",
+//         usuario: admin,
+//         token: tokenAdmin,
+//       });
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// };

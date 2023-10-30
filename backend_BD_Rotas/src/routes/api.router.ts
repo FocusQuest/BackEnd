@@ -7,6 +7,7 @@ import {
   getChamados,
   getChamadoById,
   getChamadosByUser,
+  getChamadoByIdAndamento,
   createChamado,
   deleteChamado,
   updateChamado,
@@ -17,7 +18,7 @@ import {
   createUsuario,
   deleteUsuario,
   updateUsuario,
-  loginUsuario,
+  // loginUsuario,
 } from "../controllers/usuarios.controller";
 
 const router = express.Router();
@@ -26,6 +27,7 @@ const router = express.Router();
 router.get("/chamados", getChamados);
 router.get("/chamados/:id", getChamadoById);
 router.get("/chamados/usuario/:id", getChamadosByUser);
+router.get("/chamados/andamento/:id", getChamadoByIdAndamento);
 router.post("/chamados", createChamado);
 router.delete("/chamados/:id", deleteChamado);
 router.patch("/chamados/:id", updateChamado);
@@ -36,6 +38,6 @@ router.get("/usuarios/:id", getUsuarioById);
 router.post("/usuarios", createUsuario);
 router.delete("/usuarios/:id", deleteUsuario);
 router.patch("/usuarios/:id", updateUsuario);
-router.post("/usuarios/login/:nivelAcesso", loginUsuario);
+// router.post("/usuarios/login/:nivelAcesso", loginUsuario);
 
 export default router;

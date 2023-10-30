@@ -5,6 +5,14 @@ GET http://localhost:3000/chamados/usuario/6
 # }
 
 
+###
+
+
+GET http://localhost:3000/chamados/andamento/1
+
+
+
+
 POST http://localhost:3000/usuarios/login/3
 
 {
