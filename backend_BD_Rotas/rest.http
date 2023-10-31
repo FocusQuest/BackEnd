@@ -8,7 +8,7 @@ GET http://localhost:3000/chamados/usuario/6
 ###
 
 
-GET http://localhost:3000/chamados/andamento/1
+GET http://localhost:3000/chamados/andamento/3
 
 
 
