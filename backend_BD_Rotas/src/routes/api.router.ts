@@ -19,6 +19,7 @@ import {
   deleteUsuario,
   updateUsuario,
   loginUsuario,
+  verificarToken,
 } from "../controllers/usuarios.controller";
 
 const router = express.Router();
@@ -39,5 +40,6 @@ router.post("/usuarios", createUsuario);
 router.delete("/usuarios/:id", deleteUsuario);
 router.patch("/usuarios/:id", updateUsuario);
 router.post("/usuarios/login", loginUsuario);
+router.post("/token", verificarToken) 
 
 export default router;

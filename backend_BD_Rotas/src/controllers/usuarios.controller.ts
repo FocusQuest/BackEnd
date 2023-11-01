@@ -103,6 +103,24 @@ export const updateUsuario = async (
   }
 };
 
+export const verificarToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const token = req.body.token;
+    const tokenValido = jwt.verify(token ?? "", process.env.JWT_PASS ?? "");
+    if (tokenValido) {
+      res.status(202).json({ msg: "Token válido", tokenValido });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const loginUsuario = async (
   req: Request,
   res: Response,
@@ -123,9 +141,15 @@ export const loginUsuario = async (
     if (verificarSenha == false) {
       res.status(401).json({ msg: "Senha incorreta" });
     }
-    const token = jwt.sign({ id: usuario?.id }, process.env.JWT_PASS ?? "", {
-      expiresIn: "8h",
-    });
+    const token = jwt.sign(
+      {
+        usuario: usuario,
+      },
+      process.env.JWT_PASS ?? "",
+      {
+        expiresIn: "8h",
+      },
+    );
     res.status(202).json({
       msg: "Usuário logado com sucesso",
       usuario: usuario,
