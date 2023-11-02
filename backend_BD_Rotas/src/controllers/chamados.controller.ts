@@ -21,7 +21,7 @@ export const getChamadoByIdAndamento = async (req: Request, res: Response, next:
       where: {
         idAndamento: Number(id),
       },
-      include: { usuario: true, andamento: true }
+      include: { usuario: true, andamento: true, suporte: true }
     });
     if (chamado.length === 0) {
       return res.status(404).json({ message: 'Nenhum chamado econtrado pare este status de andamento!' });
