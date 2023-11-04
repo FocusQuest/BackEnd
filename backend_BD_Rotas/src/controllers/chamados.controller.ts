@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const getChamados = async (req: Request, res: Response, next: NextFunction) => {
@@ -107,16 +107,34 @@ export const deleteChamado = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+
 export const updateChamado = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
+
+    const data: Prisma.ChamadoUpdateInput = {
+      ...req.body,
+    };
+
+    if (req.body.tratInicio === "") {
+      data.tratInicio = new Date();
+    } else if (req.body.tratInicio) {
+      data.tratInicio = new Date(req.body.tratInicio);
+    }
+
+    if (req.body.tratFim === "") {
+      data.tratFim = new Date();
+    } else if (req.body.tratFim) {
+      data.tratFim = new Date(req.body.tratFim);
+    }
+
     const updatedChamado = await prisma.chamado.update({
       where: {
         id: Number(id),
       },
-      data: req.body   // no json da req, podem ser passados o idSuporte, o tratInicio e o tratFim, p.ex.
-      //ver como faço para incluir tratInicio aqui com a data now() 
+      data,
     });
+
     res.json(updatedChamado);
   } catch (error) {
     next(error);
