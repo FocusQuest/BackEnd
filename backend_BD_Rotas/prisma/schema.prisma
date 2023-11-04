@@ -5,58 +5,58 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-
 model Chamado {
-  id                  Int       @id @default(autoincrement())
-  nomeChamado         String    
+  id                  Int        @id @default(autoincrement())
+  nomeChamado         String
   descChamado         String
-  dataAberturaChamado DateTime  @default(now())
-  usuario             Usuario  @relation("UsuarioChamados", fields: [idUsuario], references: [id])
+  dataAberturaChamado DateTime   @default(now())
+  usuario             Usuario    @relation("UsuarioChamados", fields: [idUsuario], references: [id])
   idUsuario           Int
-  suporte             Usuario? @relation("SuporteChamados", fields: [idSuporte], references: [id])
+  suporte             Usuario?   @relation("SuporteChamados", fields: [idSuporte], references: [id])
   idSuporte           Int?
-  lab                 Lab       @relation(fields: [idLab], references: [id])
+  lab                 Lab        @relation(fields: [idLab], references: [id])
   idLab               Int
-  computador          Computador  @relation(fields: [idComputador], references: [id])
+  computador          Computador @relation(fields: [idComputador], references: [id])
   idComputador        Int
-  categoria           Categoria @relation(fields: [idCategoria], references: [id])
+  categoria           Categoria  @relation(fields: [idCategoria], references: [id])
   idCategoria         Int
-  andamento           Andamento @relation(fields: [idAndamento], references: [id])
-  idAndamento         Int       @default(1)       
+  andamento           Andamento  @relation(fields: [idAndamento], references: [id])
+  idAndamento         Int        @default(1)
   tratInicio          DateTime?
   tratFim             DateTime?
+  prioridade          Prioridade @relation(fields: [idPrioridade], references: [id])
+  idPrioridade        Int        @default(1) 
 }
 
 model Usuario {
-  id               Int      @id @default(autoincrement())
-  nomeUsuario      String
-  emailUsuario     String   @unique
-  telefoneUsuario  String
-  senhaUsuario     String   @default("")
-  nivelAcesso      String
-  chamadosCliente  Chamado[] @relation("UsuarioChamados")
-  chamadosTecnico  Chamado[] @relation("SuporteChamados")
+  id              Int       @id @default(autoincrement())
+  nomeUsuario     String
+  emailUsuario    String    @unique
+  telefoneUsuario String
+  senhaUsuario    String    @default("")
+  nivelAcesso     String
+  chamadosCliente Chamado[] @relation("UsuarioChamados")
+  chamadosTecnico Chamado[] @relation("SuporteChamados")
 }
 
 model Lab {
-  id        Int       @id @default(autoincrement())
-  nomeLab   String
+  id         Int          @id @default(autoincrement())
+  nomeLab    String
   computador Computador[]
-  chamados  Chamado[] // Added opposite relation field
+  chamados   Chamado[] // Added opposite relation field
 }
 
 model Computador {
-  id        Int       @id @default(autoincrement())
-  nomeComp  String    @unique
-  lab       Lab       @relation(fields: [idLab], references: [id])
-  idLab     Int
-  chamados  Chamado[] // Added opposite relation field
+  id       Int       @id @default(autoincrement())
+  nomeComp String    @unique
+  lab      Lab       @relation(fields: [idLab], references: [id])
+  idLab    Int
+  chamados Chamado[] // Added opposite relation field
 }
 
 model Andamento {
@@ -69,4 +69,10 @@ model Categoria {
   id            Int       @id @default(autoincrement())
   descCategoria String
   chamados      Chamado[] // Added opposite relation field
+}
+
+model Prioridade {
+  id             Int       @id @default(autoincrement())
+  descPrioridade String
+  chamados       Chamado[] //Added opposite relation field
 }
