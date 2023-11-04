@@ -40,6 +40,7 @@ export const getChamadoById = async (req: Request, res: Response, next: NextFunc
       where: {
         id: Number(id),
       },
+      include: { usuario: true, andamento: true, suporte: true }
     });
     if (!chamado) {
       return res.status(404).json({ message: 'Chamado não encontrado!' });
