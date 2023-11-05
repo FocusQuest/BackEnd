@@ -21,7 +21,7 @@ export const getChamadoByIdAndamento = async (req: Request, res: Response, next:
       where: {
         idAndamento: Number(id),
       },
-      include: { usuario: true, andamento: true, suporte: true }
+      include: { usuario: true, andamento: true, suporte: true, prioridade: true }
     });
     // if (chamado.length === 0) {
     //   return res.status(404).json({ message: 'Nenhum chamado encontrado pare este status de andamento!' });
@@ -40,7 +40,7 @@ export const getChamadoById = async (req: Request, res: Response, next: NextFunc
       where: {
         id: Number(id),
       },
-      include: { usuario: true, andamento: true, suporte: true }
+      include: { usuario: true, andamento: true, suporte: true, prioridade: true }
     });
     if (!chamado) {
       return res.status(404).json({ message: 'Chamado não encontrado!' });
