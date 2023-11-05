@@ -85,6 +85,7 @@ export const createChamado = async (req: Request, res: Response, next: NextFunct
         idLab: parseInt(req.body.idLab),
         idComputador: parseInt(req.body.idComputador),
         idCategoria: parseInt(req.body.idCategoria),
+        prioridade: req.body.prioridade,
       },
     });
     res.status(201).json(createdChamado);
@@ -126,6 +127,11 @@ export const updateChamado = async (req: Request, res: Response, next: NextFunct
       data.tratFim = new Date();
     } else if (req.body.tratFim) {
       data.tratFim = new Date(req.body.tratFim);
+    }
+
+    // Se a prioridade for enviada na solicitação, adicione-a ao objeto data
+    if (req.body.prioridade) {
+      data.prioridade = req.body.prioridade;
     }
 
     const updatedChamado = await prisma.chamado.update({
