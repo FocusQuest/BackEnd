@@ -86,6 +86,8 @@ export const createChamado = async (req: Request, res: Response, next: NextFunct
         idComputador: parseInt(req.body.idComputador),
         idCategoria: parseInt(req.body.idCategoria),
         prioridade: req.body.prioridade,
+        
+        
       },
     });
     res.status(201).json(createdChamado);
@@ -134,12 +136,18 @@ export const updateChamado = async (req: Request, res: Response, next: NextFunct
       data.prioridade = req.body.prioridade;
     }
 
+    if (req.body.mensagem) {
+      data.mensagem = req.body.mensagem;
+    }
+
     const updatedChamado = await prisma.chamado.update({
       where: {
         id: Number(id),
       },
       data,
     });
+
+    
 
     res.json(updatedChamado);
   } catch (error) {
